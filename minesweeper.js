@@ -59,6 +59,7 @@ function areAllCellsUnhidden(){
     if(board.cells[i].hidden === false && !board.cells[i].isMine){
       numberOfUnhiddenCells ++
     }
+    // Cells containing mines are never unhidden so you need to consider that when evaluating if enough cells are unhidden to declare victory.
   } return (numberOfUnhiddenCells + numberOfMines === board.cells.length)
 } 
 
