@@ -3,21 +3,21 @@ document.addEventListener('DOMContentLoaded', startGame)
 // Define your `board` object here!
 var board = {
   cells: [
-    { row: 0, col: 0, isMine: false, isMarked: false, hidden: true }, 
-    { row: 0, col: 1, isMine: false, isMarked: false, hidden: true },
-    { row: 0, col: 2, isMine: false, isMarked: false, hidden: true },
-    { row: 1, col: 0, isMine: true, isMarked: false, hidden: true },
-    { row: 1, col: 1, isMine: false, isMarked: false, hidden: true },
-    { row: 1, col: 2, isMine: false, isMarked: false, hidden: true },
-    { row: 2, col: 0, isMine: true, isMarked: false, hidden: true },
-    { row: 2, col: 1, isMine: false, isMarked: false, hidden: true },
-    { row: 2, col: 2, isMine: false, isMarked: false, hidden: true }
+    { row: 0, col: 0, isMine: false, hidden: true }, 
+    { row: 0, col: 1, isMine: false, hidden: true },
+    { row: 0, col: 2, isMine: false, hidden: true },
+    { row: 1, col: 0, isMine: true, hidden: true },
+    { row: 1, col: 1, isMine: false, hidden: true },
+    { row: 1, col: 2, isMine: false, hidden: true },
+    { row: 2, col: 0, isMine: true, hidden: true },
+    { row: 2, col: 1, isMine: false, hidden: true },
+    { row: 2, col: 2, isMine: false, hidden: true }
   ]
 }
 
 function startGame () {
   //Write a for loop to count the number of mines surrounding each cell
-  for (var i = 0; i < board.cells.length; i++){
+  for (let i = 0; i < board.cells.length; i++){
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i])
   }
   //Each iteration of the loop calls countSurroundingMines()
@@ -26,6 +26,7 @@ function startGame () {
 
   document.addEventListener("click", checkForWin)
   document.addEventListener("contextmenu", checkForWin)
+
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
@@ -35,13 +36,17 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
+
+  //If evt is a click, set isMarked to true.
+
+  // If evt is contextmenu, toggle isMarked.
   //Need to check if isMine && isMarked. 
   //Then if true check if !hidden. If that's true then win.
   //Not sure of the best order to do this.
   //ToDo figure out how to deal with isMarked - I guess that only happens on contextmenu event.
-  for (var i = 0; i < board.cells.length; i++){
-    if (board.cells[i].isMine) {
-
+  for (let i = 0; i < board.cells.length; i++){
+    if (board.cells[i].isMine && board.cells[i].isMarked) {
+      console.log('isMarked= ' + board.cells[i].isMarked) 
       lib.displayMessage('You win!')
     }
   }
