@@ -24,7 +24,8 @@ function startGame () {
   //The cell is the argument passed to the function
   //The returned result to be assigned to a new property on the object surroundingMines
 
-  
+  document.addEventListener("click", checkForWin)
+  document.addEventListener("contextmenu", checkForWin)
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
@@ -34,6 +35,16 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
+  //Need to check if isMine && isMarked. 
+  //Then if true check if !hidden. If that's true then win.
+  //Not sure of the best order to do this.
+  //ToDo figure out how to deal with isMarked - I guess that only happens on contextmenu event.
+  for (var i = 0; i < board.cells.length; i++){
+    if (board.cells[i].isMine) {
+
+      lib.displayMessage('You win!')
+    }
+  }
 
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
@@ -49,16 +60,18 @@ function checkForWin () {
 // It will return cell objects in an array. You should loop through 
 // them, counting the number of times `cell.isMine` is true.
 function countSurroundingMines (cell) {
-  var arrSurroundingCells = []
-  arrSurroundingCells = lib.getSurroundingCells(cell.row, cell.col)
+
+  var arrSurroundingCells = lib.getSurroundingCells(cell.row, cell.col)
 
   var countSurroundingCells = 0
   //for loop to increment surrounding count when cell.isMine is true
   for (var i = 0; i < arrSurroundingCells.length; i++) {
-    if (cell.isMine) {
+
+    if (arrSurroundingCells[i].isMine) {
       countSurroundingCells += 1
     }
   }
+  //console.log(board)
   return countSurroundingCells
 }
 
