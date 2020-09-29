@@ -37,24 +37,52 @@ function startGame () {
 // 2. Are all of the mines marked?
 function checkForWin () {
 
-  //If evt is a click, set isMarked to true.
+  var allCellsUnhidden = areAllCellsUnhidden()
+  var allMinesMarked = areAllMinesMarked()
 
-  // If evt is contextmenu, toggle isMarked.
-  //Need to check if isMine && isMarked. 
-  //Then if true check if !hidden. If that's true then win.
-  //Not sure of the best order to do this.
-  //ToDo figure out how to deal with isMarked - I guess that only happens on contextmenu event.
-  for (let i = 0; i < board.cells.length; i++){
-    if (board.cells[i].isMine && board.cells[i].isMarked) {
-      console.log('isMarked= ' + board.cells[i].isMarked) 
-      lib.displayMessage('You win!')
+  if (allCellsUnhidden && allMinesMarked){
+    lib.displayMessage('You win!')
+  }
+}
+
+function areAllCellsUnhidden(){
+  let numberOfMines = 0
+  let numberOfUnhiddenCells = 0
+
+  for( let i = 0; i < board.cells.length; i++){
+    if(board.cells[i].isMine === true){
+      numberOfMines ++
     }
   }
 
+  for( let i = 0; i < board.cells.length; i++){
+    if(board.cells[i].hidden === false && !board.cells[i].isMine){
+      numberOfUnhiddenCells ++
+    }
+  } return (numberOfUnhiddenCells + numberOfMines === board.cells.length)
+} 
+
+function areAllMinesMarked(){
+  let numberOfMines = 0
+  let numberOfMarkedMines = 0
+  for( let i = 0; i < board.cells.length; i++){
+    if(board.cells[i].isMine === true){
+      numberOfMines ++
+    }
+  }
+
+  for( let i = 0; i < board.cells.length; i++){
+    if(board.cells[i].isMine && board.cells[i].isMarked){
+      numberOfMarkedMines ++
+    }
+  }
+
+  return (numberOfMines === numberOfMarkedMines)
+}
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
   //   lib.displayMessage('You win!')
-}
+
 
 // Define this function to count the number of mines around the cell
 // (there could be as many as 8). You don't have to get the surrounding
